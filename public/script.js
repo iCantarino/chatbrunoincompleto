@@ -55,15 +55,15 @@ function logar() {
   })
     .then(response => {
       if (response.ok) {
-        alert('Login successful');
+        alert('Logado com sucesso');
         window.location.href = '/chatbox'; // Redirect to the chatbox page
       } else {
-        alert('Invalid credentials');
+        alert('Dados incorretos');
       }
     })
     .catch(error => {
-      alert('Error during login');
-      console.error('Error during login:', error);
+      alert('Erro');
+      console.error('Algum erro:', error);
     })
     .finally(() => {
       // Clear the input fields
