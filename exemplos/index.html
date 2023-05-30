@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+    <ul id="mensagens"></ul>
+
+    <header>
+
+    </header>
+
+    <img src="img/pattern-logos-characters-bd1f26898b2027c98ce8ba17c084f523.png" alt="" id="espelho">
+    <img src="img/titulo.png" alt="" id="titulo">
+ 
+    <img src="img/pipe.png" alt="" id="pipe1">
+    <img src="img/pipe.png" alt="" id="pipe2">
+
+    <img src="img/marioPulandoGumba.png" alt="" id="marioPulandoGumba">
+    <img src="img/Goomba.webp" alt="" id="Goomba">
+    <img src="img/pngwing.com (7).png" alt="" id="Goomba2">
+    <img src="img/pngwing.com (7).png" alt="" id="Goomba3">
+    <img src="img/pngwing.com (7).png" alt="" id="Goomba4">
+    <img src="img/pngwing.com (7).png" alt="" id="Goomba5">
+    <img src="img/pngwing.com (8).png" alt="" id="plantaFogo">
+ 
+
+    <form id="logar">
+        <input id="nome" placeholder="Seu Nome de Usuario">
+        <br>
+        <button id="button" type="submit"><img src="img/logar.png" alt=""></button>
+    </form>
+
+   
+    <footer>
+
+    </footer>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+
+        //Criar uma instancia do Socket.io
+        const socket = io()
+
+        //Selecione o input nome
+        const nomeInput = document.getElementById('nome');
+
+        //Selecione o input nome
+        const mensagemInput = document.getElementById('mensagem');
+
+        //Selecione o input nome
+        const mensagensInput = document.getElementById('mensagens');
+
+        //Adiciona um evento para o envio do formulario não atualizar
+        document.querySelector('form').addEventListener('submit', event => {
+            //Previne o envio do formulário
+            event.preventDefault();
+
+            //Obtem o valor do input do nome do usuario e da Mensagem
+            const nome = nomeInput.value;
+            const mensagem = mensagemInput.value;
+
+            //Criar um evento chamado chat message - EMIT
+            //Um metodo chamado trim que remove os espaços em branco do inicio ao fim
+            nome.trim() && mensagem.trim() && socket.emit('chat message', {nome, mensagem});
+
+            //Limpa o input a mensagem
+            mensagemInput.value = '';
+
+            //Desabilita o input do nome do usuario apos a primeira mensagem
+            nomeInput.disable = true;
+        });
+
+        //Adiciona um evento para mensagem recebida do servidor
+        socket.on('chat message', dados => {
+
+            //Cria um elemento de lista para exibir as mensagens
+
+            const lista = document.createElement('li')
+
+            //Definir o texto da mensagem
+
+            lista.textContent = `${dados.nome}: ${dados.mensagem}`;
+
+            //Adiciona o elemento na lista de mensagens
+            mensagens.appendChild(lista)
+        })
+        
+    </script>
+    
+</body>
+</html>

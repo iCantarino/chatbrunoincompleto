@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - Bruno</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+	<link href='https://cdn.jsdelivr.net/npm/css.gg/icons/all.css' rel='stylesheet'>
+	<link rel="stylesheet" type="text/css" href="login.css">
+</head>
+<body>
+    <h2>Chat - Bruno</h2>
+<div class="container" id="container">
+	<div class="form-container sign-up-container">
+		<form>
+			<h1>Criar Conta</h1>
+			<input type="text" id="nomeCadastro" placeholder="Nome" required />
+			<input type="email" id="emailCadastro" placeholder="Email" required/>
+			<input type="password" id="senhaCadastro" placeholder="Senha" required/>
+			<button type="submit" onclick="cadastrar(event)">Cadastrar</button>
+		  </form>		  
+	</div>
+	<div class="form-container sign-in-container">
+		<form>
+			<h1>Entrar</h1>
+			<input type="email" id="emailLogin" placeholder="Email" />
+			<input type="password" id="senhaLogin" placeholder="Senha" />
+			<a href="#">Esqueceu sua senha?</a>
+			<button type="button" onclick="logar()">Conectar</button>
+		</form>
+	</div>
+	<div class="overlay-container">
+		<div class="overlay">
+			<div class="overlay-panel overlay-left">
+				<h1>Bem-Vindo!</h1>
+				<p>Preencha seus dados e entre novamente!</p>
+				<button class="ghost" id="signIn">Entrar</button>
+			</div>
+			<div class="overlay-panel overlay-right">
+				<h1>Bem-Vindo!</h1>
+				<p>Cadastre-se agora mesmo gratuitamente!</p>
+				<button class="ghost" id="signUp">Registrar</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+</body>
+<script>
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('container');
+
+    signUpButton.addEventListener('click', () => {
+        container.classList.add("right-panel-active");
+    });
+
+    signInButton.addEventListener('click', () => {
+        container.classList.remove("right-panel-active");
+    });
+
+	function modoEscuro() {
+		var elementBody = document.body;
+		elementBody.classList.toggle('dark-mode');
+	}	
+
+</script>
+<script src="script.js"></script>
+</html>

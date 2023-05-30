@@ -1,0 +1,64 @@
+{
+  "usuarios": [
+    {
+      "id": "1da5a2a3-d8cd-4f76-b23e-1da908c50d79",
+      "nome": "Etec",
+      "email": "etecteste@email.com",
+      "senha": "0000"
+    },
+    {
+      "id": "c0511ec9-9bd2-4b54-8730-b26655b74209",
+      "nome": "Senai",
+      "email": "senaiteste@email.com",
+      "senha": "0000"
+    },
+    {
+      "id": "f567f7ff-c5a3-4d4c-b8ea-c9a68e68a6b8",
+      "nome": "TesteServidor",
+      "email": "serverteste@email.com",
+      "senha": "0000"
+    },
+    {
+      "id": "2e4574d1-7272-4513-aa33-0729c1b574ba",
+      "nome": "Arthur",
+      "email": "arthur@email.com",
+      "senha": "0000"
+    },
+    {
+      "id": "7cc6450f-64e5-4b37-99d3-2c1a4a27a545",
+      "nome": "Guilherme",
+      "email": "guilherme@email.com",
+      "senha": "0000"
+    },
+    {
+      "id": "01b88ace-9ebe-4c8b-b721-40ae69af89ab",
+      "nome": "Bruno",
+      "email": "brunoprofessor@email.com",
+      "senha": "0000"
+    },
+    {
+      "id": "0af23b29-6723-4056-92d6-56e45747c25e",
+      "nome": "Juan Pablo",
+      "email": "juan@email.com",
+      "senha": "0000"
+    },
+    {
+      "id": "e13d69f8-fb34-424a-96aa-3d1c229ba19c",
+      "nome": "TesteNovo",
+      "email": "testenovo@email.com",
+      "senha": "0000"
+    },
+    {
+      "id": "8ef44614-ced6-46c3-8e70-39d60cecde84",
+      "nome": "TesteNoo",
+      "email": "testenoo@email.com",
+      "senha": "0000"
+    },
+    {
+      "id": "1a44558f-129e-4312-81f7-770863313dab",
+      "nome": "SenaiSegunda",
+      "email": "senaisegunda@email.com",
+      "senha": "0000"
+    }
+  ]
+}

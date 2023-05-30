@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - Bruno</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <main class="content">
+        <div class="container p-0">
+            <h1 class="h3 mb-3">CHAT</h1>
+            <div class="card">
+                <div class="row g-0">
+                    <div class="col-12 col-lg-5 col-xl-3 border-right">
+                        <div class="px-4 d-none d-md-block">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <input type="text" class="form-control my-3" placeholder="Search...">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="joinedUsersContainer">
+                            <a href="#" class="list-group-item list-group-item-action border-0">
+                                <div class="d-flex align-items-start">
+                                    <img src=""
+                                        class="rounded-circle mr-1" alt="" width="40" height="40">
+                                    <div class="flex-grow-1 ml-3">
+                                        <em>Bate-papo</em>
+                                        <div class="small"><span class="fas fa-circle chat-online"></span> #Global</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action border-0">
+                                <div class="d-flex align-items-start">
+                                    <img src=""
+                                        class="rounded-circle mr-1" alt="" width="40" height="40">
+                                    <div class="flex-grow-1 ml-3">
+                                        Placeholder
+                                        <div class="small"><span class="fas fa-circle chat-online"></span> Online</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action border-0">
+                                <div class="d-flex align-items-start">
+                                    <img src=""
+                                        class="rounded-circle mr-1" alt="" width="40" height="40">
+                                    <div class="flex-grow-1 ml-3">
+                                        Placeholder
+                                        <div class="small"><span class="fas fa-circle chat-online"></span> Online</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action border-0">
+                                <div class="d-flex align-items-start">
+                                    <img src=""
+                                        class="rounded-circle mr-1" alt="" width="40" height="40">
+                                    <div class="flex-grow-1 ml-3">
+                                        Placeholder
+                                        <div class="small"><span class="fas fa-circle chat-online"></span> Online</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <hr class="d-block d-lg-none mt-1 mb-0">
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-7 col-xl-9">
+                        <div class="py-2 px-4 border-bottom d-none d-lg-block">
+                            <div class="d-flex align-items-center py-1">
+                                <div class="position-relative">
+                                    <img src=""
+                                        class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
+                                </div>
+                                <div class="flex-grow-1 pl-3">
+                                    <strong>Bate-Papo</strong>
+                                    <div class="text-muted small"><em>Conversa Global</em></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="position-relative">
+                            <div class="chat-messages p-4">
+                                <div class="chat-message-right pb-4">
+                                    
+                            </div>
+                        </div>
+                        <div class="flex-grow-0 py-3 px-4 border-top">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="mensagem" placeholder="Type your message">
+                                <button class="btn btn-primary" id="sendButton">Enviar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Importar o Script do Socket -->
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        
+        const socket = io();
+
+        
+        const mensagemInput = document.getElementById('mensagem');
+        const sendButton = document.getElementById('sendButton');
+
+        
+        const chatMessagesContainer = document.querySelector('.chat-messages');
+
+        
+        function getCurrentTime() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            return `${hours}:${minutes.toString().padStart(2, '0')}`;
+        }
+
+        socket.on('connect', () => {
+            
+            fetch('/user', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': localStorage.getItem('token')
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error retrieving user data');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const nome = data.name;
+
+                    
+                    sendButton.addEventListener('click', () => {
+                        
+                        const mensagem = mensagemInput.value;
+
+                        if (mensagem) {
+                            socket.emit('chat message', { nome, mensagem, userId: socket.id });
+                        }
+
+                        mensagemInput.value = '';
+                    });
+                })
+                .catch(error => {
+                    console.error('Error retrieving user data:', error);
+                });
+        });
+
+        socket.on('chat message', dados => {
+            
+            const chatMessage = document.createElement('div');
+            chatMessage.classList.add('chat-message');
+            chatMessage.classList.add(dados.userId === socket.id ? 'chat-message-right' : 'chat-message-left');
+            chatMessage.classList.add('pb-4');
+
+            const img = document.createElement('img');
+            img.src = dados.imageSrc;
+            img.classList.add('rounded-circle');
+            img.classList.add('mr-1');
+            img.alt = '';
+            img.width = 40;
+            img.height = 40;
+
+            const timestamp = document.createElement('div');
+            timestamp.classList.add('text-muted');
+            timestamp.classList.add('small');
+            timestamp.classList.add('text-nowrap');
+            timestamp.classList.add('mt-2');
+            timestamp.textContent = getCurrentTime();
+
+            const chatMessageContent = document.createElement('div');
+            chatMessageContent.classList.add('flex-shrink-1');
+            chatMessageContent.classList.add('bg-light');
+            chatMessageContent.classList.add('rounded');
+            chatMessageContent.classList.add('py-2');
+            chatMessageContent.classList.add('px-3');
+            chatMessageContent.classList.add('ml-3');
+
+            const username = document.createElement('div');
+            username.classList.add('font-weight-bold');
+            username.classList.add('mb-1');
+            username.textContent = dados.userId === socket.id ? 'Você' : dados.nome;
+
+            chatMessage.appendChild(img);
+            chatMessage.appendChild(timestamp);
+
+            chatMessageContent.appendChild(username);
+
+            chatMessage.appendChild(chatMessageContent);
+
+            const message = document.createElement('div');
+            message.textContent = dados.mensagem;
+
+            chatMessageContent.appendChild(message);
+
+            chatMessagesContainer.appendChild(chatMessage);
+        });
+
+        const joinedUsersContainer = document.getElementById('joinedUsersContainer');
+
+        socket.on('newUserJoined', (userName) => {
+
+            const userBox = document.createElement('div');
+            userBox.className = 'list-group-item list-group-item-action border-0';
+
+            const userBoxContent = document.createElement('div');
+            userBoxContent.className = 'd-flex align-items-start';
+
+            const userImage = document.createElement('img');
+            userImage.src = ""; 
+            userImage.className = 'rounded-circle mr-1';
+            userImage.alt = '';
+            userImage.width = 40;
+            userImage.height = 40;
+
+            const userInfo = document.createElement('div');
+            userInfo.className = 'flex-grow-1 ml-3';
+
+            const userNameElement = document.createElement('em');
+            userNameElement.textContent = userName;
+
+            const userStatus = document.createElement('div');
+            userStatus.className = 'small';
+            userStatus.innerHTML = '<span class="fas fa-circle chat-online"></span> Online';
+
+            userBoxContent.appendChild(userImage);
+            userBoxContent.appendChild(userInfo);
+
+            userInfo.appendChild(userNameElement);
+            userInfo.appendChild(userStatus);
+
+            userBox.appendChild(userBoxContent);
+
+            joinedUsersContainer.appendChild(userBox);
+
+            console.log(joinedUsersContainer);
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
