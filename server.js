@@ -81,7 +81,7 @@ app.post('/usuarios', (req, res) => {
     const emailExists = jsonData.usuarios.some(user => user.email === email);
     if (emailExists) {
       res.statusCode = 409; // Conflito - e-mail já cadastrado
-      res.end('E-mail already exists');
+      res.end('E-mail já existe');
     } else {
       const newUser = { id: uuidv4(), nome, email, senha };
       jsonData.usuarios.push(newUser); // Adiciona o novo usuário na chave "usuarios"
@@ -90,7 +90,7 @@ app.post('/usuarios', (req, res) => {
         fs.writeFileSync(dbPath, JSON.stringify(jsonData, null, 2));
         console.log('Data stored in db.json');
         res.statusCode = 200;
-        res.end('User added successfully');
+        res.end('Adicionado com sucesso');
       } catch (error) {
         console.error('Error writing to db.json:', error);
         res.statusCode = 500;
